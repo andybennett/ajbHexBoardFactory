@@ -71,51 +71,51 @@ public class HexBoardFactory {
         float width = sampleHex.getWidth();
         float halfHeight = height / 2;
 
-        int hexCount = 1;
+        Integer hexCount = 1;
         // North
         Hex hex = new Hex(new Point2D.Double(0, 0 - (height * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createNorthToNorthEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthToNorthEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
 
         // North East
         hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createNorthEastToSoutEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthEastToSoutEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
 
         // South East
         hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createSouthEastToSouthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthEastToSouthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
 
         // South
         hex = new Hex(new Point2D.Double(0, 0 + (height * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createSouthToSouthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthToSouthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
 
         // South West
         hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createSouthWestToNorthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthWestToNorthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
 
         // North West
         hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount);
         hexList.add(hex);
         hexCount++;
 
-        createNorthWestToNorthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthWestToNorthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
     }
 
-    private void createNorthToNorthEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthToNorthEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 + width;
         float posY = 0 - (height * modifier) + halfHeight;
 
@@ -126,9 +126,11 @@ public class HexBoardFactory {
             posY += halfHeight;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
-    private void createNorthEastToSoutEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthEastToSoutEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 + (width * modifier);
         float posY = 0 - (halfHeight * modifier) + height;
 
@@ -138,9 +140,11 @@ public class HexBoardFactory {
             posY += height;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
-    private void createSouthEastToSouthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthEastToSouthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 + (width * modifier) - width;
         float posY = 0 + (halfHeight * modifier) + halfHeight;
 
@@ -151,9 +155,11 @@ public class HexBoardFactory {
             posY += halfHeight;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
-    private void createSouthToSouthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthToSouthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 - width;
         float posY = 0 + (height * modifier) - halfHeight;
 
@@ -164,9 +170,11 @@ public class HexBoardFactory {
             posY -= halfHeight;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
-    private void createSouthWestToNorthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthWestToNorthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 - (width * modifier);
         float posY = 0 + (halfHeight * modifier) - height;
 
@@ -176,9 +184,11 @@ public class HexBoardFactory {
             posY -= height;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
-    private void createNorthWestToNorthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthWestToNorthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
         float posX = 0 - (width * modifier) + width;
         float posY = 0 - (halfHeight * modifier) - halfHeight;
 
@@ -189,6 +199,8 @@ public class HexBoardFactory {
             posY -= halfHeight;
             hexCount++;
         }
+        
+        return hexCount;
     }
 
     private void calculateAdjacentHexes(HexBoard hexBoard) {

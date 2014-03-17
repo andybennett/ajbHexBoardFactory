@@ -11,7 +11,7 @@ public class CreateAndWriteBoardImgToDisk {
             HexBoardFactory hexBoardFactory = new HexBoardFactory();
 
             // Use the factory to create the hex board
-            HexBoard board = hexBoardFactory.createHexBoard(3);
+            HexBoard board = hexBoardFactory.createHexBoard(3, 100);
 
             // Output hex board to image
             // Change this string to place the img within a different folder i.e. c://<directory>//<filename>.png

@@ -17,8 +17,8 @@ public class HexBoardFactory {
      * @param amountOfRings {@link int}
      * @return {@link HexBoard}
      */
-    public HexBoard createHexBoard(int amountOfRings) {
-        HexBoard hexBoard = createBlankHexBoard(amountOfRings);
+    public HexBoard createHexBoard(int amountOfRings, int hexSize) {
+        HexBoard hexBoard = createBlankHexBoard(amountOfRings, hexSize);
         return hexBoard;
     }
 
@@ -28,15 +28,15 @@ public class HexBoardFactory {
      * @param amountOfRings {@link int}
      * @return {@link HexBoard}
      */
-    private HexBoard createBlankHexBoard(int ringCount) {
+    private HexBoard createBlankHexBoard(int ringCount, int hexSize) {
 
         List<Hex> hexList = new ArrayList<Hex>();
 
-        Hex hex00 = new Hex(new Point2D.Double(0, 0), "0,0");
+        Hex hex00 = new Hex(new Point2D.Double(0, 0), "0,0", hexSize);
         hexList.add(hex00);
 
         for (int i = 1; i < ringCount + 1; i++) {
-            createHexRing(i, hexList);
+            createHexRing(i, hexList, hexSize);
         }
 
         HexBoard hexBoard = new HexBoard(hexList);
@@ -63,9 +63,9 @@ public class HexBoardFactory {
         return hexesByIdentifierMap;
     }
 
-    private void createHexRing(int modifier, List<Hex> hexList) {
+    private void createHexRing(int modifier, List<Hex> hexList, int hexSize) {
 
-        Hex sampleHex = new Hex(new Point2D.Double(0, 0), "SampleHex");
+        Hex sampleHex = new Hex(new Point2D.Double(0, 0), "SampleHex", hexSize);
 
         float height = sampleHex.getHeight();
         float width = sampleHex.getWidth();
@@ -73,54 +73,54 @@ public class HexBoardFactory {
 
         Integer hexCount = 1;
         // North
-        Hex hex = new Hex(new Point2D.Double(0, 0 - (height * modifier)), modifier + "," + hexCount);
+        Hex hex = new Hex(new Point2D.Double(0, 0 - (height * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createNorthToNorthEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthToNorthEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
 
         // North East
-        hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount);
+        hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createNorthEastToSoutEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthEastToSoutEastFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
 
         // South East
-        hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount);
+        hex = new Hex(new Point2D.Double(0 + (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createSouthEastToSouthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthEastToSouthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
 
         // South
-        hex = new Hex(new Point2D.Double(0, 0 + (height * modifier)), modifier + "," + hexCount);
+        hex = new Hex(new Point2D.Double(0, 0 + (height * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createSouthToSouthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthToSouthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
 
         // South West
-        hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount);
+        hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 + (halfHeight * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createSouthWestToNorthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createSouthWestToNorthWestFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
 
         // North West
-        hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount);
+        hex = new Hex(new Point2D.Double(0 - (width * modifier), 0 - (halfHeight * modifier)), modifier + "," + hexCount, hexSize);
         hexList.add(hex);
         hexCount++;
 
-        hexCount = createNorthWestToNorthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount);
+        hexCount = createNorthWestToNorthFillerHexes(modifier, height, width, halfHeight, hexList, hexCount, hexSize);
     }
 
-    private int createNorthToNorthEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthToNorthEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 + width;
         float posY = 0 - (height * modifier) + halfHeight;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posX += width;
             posY += halfHeight;
@@ -130,12 +130,12 @@ public class HexBoardFactory {
         return hexCount;
     }
 
-    private int createNorthEastToSoutEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthEastToSoutEastFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 + (width * modifier);
         float posY = 0 - (halfHeight * modifier) + height;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posY += height;
             hexCount++;
@@ -144,12 +144,12 @@ public class HexBoardFactory {
         return hexCount;
     }
 
-    private int createSouthEastToSouthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthEastToSouthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 + (width * modifier) - width;
         float posY = 0 + (halfHeight * modifier) + halfHeight;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posX -= width;
             posY += halfHeight;
@@ -159,12 +159,12 @@ public class HexBoardFactory {
         return hexCount;
     }
 
-    private int createSouthToSouthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthToSouthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 - width;
         float posY = 0 + (height * modifier) - halfHeight;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posX -= width;
             posY -= halfHeight;
@@ -174,12 +174,12 @@ public class HexBoardFactory {
         return hexCount;
     }
 
-    private int createSouthWestToNorthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createSouthWestToNorthWestFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 - (width * modifier);
         float posY = 0 + (halfHeight * modifier) - height;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posY -= height;
             hexCount++;
@@ -188,12 +188,12 @@ public class HexBoardFactory {
         return hexCount;
     }
 
-    private int createNorthWestToNorthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount) {
+    private int createNorthWestToNorthFillerHexes(int modifier, float height, float width, float halfHeight, List<Hex> hexList, int hexCount, int hexSize) {
         float posX = 0 - (width * modifier) + width;
         float posY = 0 - (halfHeight * modifier) - halfHeight;
 
         for (int i = 1; i < modifier; i++) {
-            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount);
+            Hex hex = new Hex(new Point2D.Double(posX, posY), modifier + "," + hexCount, hexSize);
             hexList.add(hex);
             posX += width;
             posY -= halfHeight;

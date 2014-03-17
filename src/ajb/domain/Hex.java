@@ -33,8 +33,9 @@ public class Hex {
      * @param point {@link Point2D.Double}
      * @param identifier {@link String}
      */
-    public Hex(Point2D.Double point, String identifier) {
+    public Hex(Point2D.Double point, String identifier, int size) {
 
+    	this.size = size;
         this.identifier = identifier;
         this.middlePoint = point;
 
